@@ -1,0 +1,22 @@
+{
+  "name": "black-lamp/blcms-partner",
+  "description": "Partner module for Black-Lamp CMS",
+  "keywords": ["yii2", "blcms"],
+  "type": "yii2-extension",
+  "authors": [
+    {
+      "name": "Gutsulyak Vadim",
+      "email": "guts.vadim@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.0",
+    "yiisoft/yii2": ">=2.0.4",
+    "yiisoft/yii2-bootstrap": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "bl\\cms\\partner\\": ""
+    }
+  }
+}
