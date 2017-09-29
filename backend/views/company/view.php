@@ -59,7 +59,7 @@ use bl\cms\partner\common\widgets\UserSearcher;
                         ]) ?>
                         <?= $widget->getLabel(
                             $company->statusId,
-                            $company->status->translation->title
+                            $company->status->id
                         ) ?>
                         <?php $widget->end() ?>
                     </dd>

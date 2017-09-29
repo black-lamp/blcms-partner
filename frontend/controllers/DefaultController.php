@@ -1,6 +1,7 @@
 <?php
 namespace bl\cms\partner\frontend\controllers;
 
+use bl\cms\seo\StaticPageBehavior;
 use Yii;
 use yii\filters\VerbFilter;
 use yii\helpers\Url;
@@ -44,6 +45,10 @@ class DefaultController extends Controller
                     'send-request' => ['post']
                 ]
             ],
+            'staticPage' => [
+                'class' => StaticPageBehavior::className(),
+                'key' => 'partner'
+            ]
         ];
     }
 
@@ -82,8 +87,9 @@ class DefaultController extends Controller
                 break;
         }
 
-        Yii::$app->getUser()->setReturnUrl('/partner');
 
+        $this->registerStaticSeoData();
+        Yii::$app->getUser()->setReturnUrl(['/partner']);
         return $this->render('index', [
             'status' => $status
         ]);
@@ -108,6 +114,7 @@ class DefaultController extends Controller
             $langId
         )->id;
 
+        $this->registerStaticSeoData();
         return $this->render('form', [
             'model' => $model,
             'langId' => $langId,
@@ -126,16 +133,16 @@ class DefaultController extends Controller
         $model = Yii::createObject(PartnerRequest::class);
 
         $request = Yii::$app->getRequest();
-        if ($model->load($request->post()) && $model->save()) {
+        if ($request->isAjax && $model->load($request->post())) {
+            Yii::$app->getResponse()->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($model);
+        }
+        else if ($model->load($request->post()) && $model->save()) {
             // TODO: validation errors
             $this->module->getMailer()->sendLegalAgreement(
                 Yii::$app->user->id,
                 Yii::$app->user->identity->email
             );
-        }
-        elseif ($request->getIsAjax() && $model->load($request->post())) {
-            Yii::$app->getResponse()->format = Response::FORMAT_JSON;
-            return ActiveForm::validate($model);
         }
 
         return $this->redirect(['/partner']);

@@ -1,6 +1,7 @@
 <?php
 namespace bl\cms\partner\common\components;
 
+use bl\legalAgreement\common\entities\Legal;
 use Yii;
 use yii\base\Object;
 use yii\helpers\Html;
@@ -92,12 +93,13 @@ class PartnerMailer extends Object
         $legalComponent = Yii::$app->get('legal');
         $template = $this->getTemplate('legal-agreement');
 
+        $legalAgreement = Legal::findOne(['key' => 'partners']);
         $acceptLink = Html::a(
             PartnerModule::t('partner.email', 'legal agreement'),
             Url::toRoute([
                 '/legal/default/accept',
-                'legalId' => 1,
-                'token' => $legalComponent->generateToken(1, $userId)
+                'legalId' => $legalAgreement->id,
+                'token' => $legalComponent->generateToken($legalAgreement->id, $userId)
             ], true)
         );
 
@@ -142,12 +144,13 @@ class PartnerMailer extends Object
             ->where(['id' => $companyId])
             ->column();
 
+        $legalAgreement = Legal::findOne(['key' => 'partners']);
         $acceptLink = Html::a(
             PartnerModule::t('partner.email', 'legal agreement'),
             FrontendUrl::toRoute([
                 '/legal/default/accept',
-                'legalId' => 1,
-                'token' => $legalComponent->generateToken(1, $userId)
+                'legalId' => $legalAgreement->id,
+                'token' => $legalComponent->generateToken($legalAgreement->id, $userId)
             ], true)
         );
 

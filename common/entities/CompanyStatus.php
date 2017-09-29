@@ -20,7 +20,7 @@ class CompanyStatus extends \yii2tech\filedb\ActiveRecord
     /**
      * @inheritdoc
      */
-    public function behaviors()
+    /*public function behaviors()
     {
         return [
             'translation' => [
@@ -30,7 +30,7 @@ class CompanyStatus extends \yii2tech\filedb\ActiveRecord
                 'languageColumn' => 'languageId'
             ]
         ];
-    }
+    }*/
 
     /**
      * @inheritdoc
