@@ -136,7 +136,9 @@ class PricesController extends Controller
 
                     foreach ($combination->combinationAttributes as $combinationAttribute) {
                         $combinationTitle .= ", " . $combinationAttribute->productAttribute->translation->title
-                            . ": " . $combinationAttribute->productAttributeValue->translation->value;
+                            . ": " . empty($combinationAttribute->productAttributeValue->translation->colorTexture)
+                                ? $combinationAttribute->productAttributeValue->translation->value
+                                : $combinationAttribute->productAttributeValue->translation->colorTexture->title;
                     }
 
                     $combinationUserPrice = $combination->getPriceByUserGroup(UserGroup::USER_GROUP_ALL_USERS);
